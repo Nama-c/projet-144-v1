@@ -1,7 +1,9 @@
 tcompte=[]
+tab_transfert=[]
 client=[]
 out = True
 num=True
+num_identification=1
 
 while out == True :
     print("----------bienvenue sur orange money senegal !!!----------")
@@ -60,24 +62,32 @@ while out == True :
         soldeinclient=0
         client.append(soldeinclient)
         tcompte.append(client)
+        tcompte.append(num_identification)
+        num_identification +=1
     if choix == 2 :
         # 2-Afficher tous les comptes
         v=1
+        print("-----voici la liste des comptes orange money-----")
         for i in tcompte :
             print(v,"-",i)
             v+=1
-    
+
     # if choix == 3 :
         # 3-Lister les comptes d’un client
     
     if choix == 4 :
         # 4-Recharger un compte
-        nom_client_recharge=input("saisissez le nom du client a recharger : ")
-        while not(nom_client_recharge.isalpha()):
-            nom_client_recharge=input("resaisissez le nom du client : ")
+        soldeclient=0
+        num_client_recharge=input("saisissez le numero d'identification du client a recharger : ")
+        while not(num_client_recharge.isdigit()):
+            num_client_recharge=input("resaisissez le numero d'identification du client : ")
         for i in tcompte:
-            if nom_client_recharge == client[0]:
-                print(i)
+            if num_client_recharge == num_identification:
+                soldeclient=input("saisissez le montant de recharge : ")
+                while not soldeclient.isdigit() or int(soldeclient)<=0 :
+                    soldeclient=input("saisissez le montant de recharge : ")
+                soldeclient=int(soldeclient)
+                soldeinclient.append(soldeclient)
             else:
                 print("compte non trouver !")
 
