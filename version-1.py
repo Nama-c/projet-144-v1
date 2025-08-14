@@ -1,10 +1,6 @@
 tcompte=[]
-tab_transfert=[]
-client=[]
 out = True
 num=True
-num_identification=1
-
 while out == True :
     print("----------bienvenue sur orange money senegal !!!----------")
     print("1-Créer un compte (nom, numéro, PIN, solde initial)")
@@ -20,57 +16,56 @@ while out == True :
     choix=int(choix)
     if choix == 1:
         # 1-Créer un compte (nom, numéro, PIN, solde initial)
-        client=[]
-        nomclient=input("saissisez un nom : ")
-        while (not nomclient.isalpha()) or len(nomclient) ==1:
-            nomclient=input("valeur saisi non valide veuillez retaper un nom valide d'au moins deux carateres et contenant que des lettres : ")
-        client.append(nomclient)
+        nom=input("saissisez un nom : ")
+        while (not nom.isalpha()) or len(nom) ==1:
+            nom=input("valeur saisi non valide veuillez retaper un nom valide d'au moins deux carateres et contenant que des lettres : ")
 
-        prenomclient=input("saissisez un prenom : ")
-        while (not prenomclient.isalpha()) or len(prenomclient) ==1:
-            prenomclient=input("valeur saisi non valide veuillez retaper un nom valide d'au moins deux carateres et contenant que des lettres : ")
-        client.append(prenomclient)
+        prenom=input("saissisez un prenom : ")
+        while (not prenom.isalpha()) or len(prenom) ==1:
+            prenom=input("valeur saisi non valide veuillez retaper un nom valide d'au moins deux carateres et contenant que des lettres : ")
 
         # numero de telephone...
-        numeroclient=input("saissisez votre numero de telephone : ")
-        while (not numeroclient.isdigit()) or int(numeroclient)<770000000 or int(numeroclient)>=790000000:
-            numeroclient=input("numero de telephone saisi non valide veuillez retaper un numero valide : ")
-        client.append(numeroclient)
+        numero=input("saissisez votre numero de telephone : ")
+        while (not numero.isdigit()) or int(numero)<770000000 or int(numero)>=790000000:
+            numero=input("numero de telephone saisi non valide veuillez retaper un numero valide : ")
 
         # mot de passe
         num=True
         while num==True:
             # premiere saisi
-            mdpclient=input("enregistrer un mot de passe (uniquement des chiffres) : ")
-            while not(mdpclient.isdigit()) or len(mdpclient)<4:
-                mdpclient=input("mot de passe saisi non valide, retapez un mot de passe : ")
-            mdpclient=int(mdpclient)
+            mdp=input("enregistrer un mot de passe (uniquement des chiffres) : ")
+            while not(mdp.isdigit()) or len(mdp)<4:
+                mdp=input("mot de passe saisi non valide, retapez un mot de passe : ")
+            mdp=int(mdp)
             # deuxieme saisi
-            mdp2client=input("saisissez une deuxieme fois votre mot de passe : ")
-            while not(mdp2client.isdigit()):
-                mdp2client=input("retapez le mot de passe : ")
-            mdp2client=int(mdp2client)
-            if mdpclient != mdp2client :
+            mdp2=input("saisissez une deuxieme fois votre mot de passe : ")
+            while not(mdp2.isdigit()):
+                mdp2=input("retapez le mot de passe : ")
+            mdp2=int(mdp2)
+            if mdp != mdp2 :
                 print("les mots de passe saisi ne correspondent pas !!!")
                 num=True
             else:
                 print("mot de passe enregistrer !!!")
-                client.append(mdpclient)
                 num=False
         
         # solde initial
-        soldeinclient=0
-        client.append(soldeinclient)
+        client = {
+            "numero":numero,
+            "nom":nom,
+            "prenom":prenom,
+            "mot de passe":mdp,
+            "solde":0,
+            "transfert":[]
+        }
         tcompte.append(client)
-        tcompte.append(num_identification)
-        num_identification +=1
     if choix == 2 :
         # 2-Afficher tous les comptes
         v=1
         print("-----voici la liste des comptes orange money-----")
         for i in tcompte :
             print(v,"-",i)
-            v+=1
+            v += 1
 
     # if choix == 3 :
         # 3-Lister les comptes d’un client
