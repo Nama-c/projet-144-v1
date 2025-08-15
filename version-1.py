@@ -67,8 +67,16 @@ while out == True :
             print(v,"-",i)
             v += 1
 
-    # if choix == 3 :
+    if choix == 3 :
         # 3-Lister les comptes d’un client
+        client_recherche=input("saisissez le nom du client a afficher les comptes : ").lower()
+        while not client_recherche.isalpha() :
+            client_recherche=input("resaisissez le nom du client a afficher les comptes : ").lower()
+        for i in tcompte :
+            if i == dict:
+                for y in i :
+                    if client_recherche == client["nom"] :
+                        print(y)
     
     if choix == 4 :
         # 4-Recharger un compte
