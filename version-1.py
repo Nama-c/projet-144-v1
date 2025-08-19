@@ -46,14 +46,14 @@ while out == True :
                 print("les mots de passe saisi ne correspondent pas !!!")
                 num=True
             else:
-                print("mot de passe enregistrer !!!")
+                print("mot de passe enregistrer et compte creer !!!")
                 num=False
         
         # solde initial
         client = {
             "numero":numero,
-            "nom":nom,
-            "prenom":prenom,
+            "nom":nom.lower(),
+            "prenom":prenom.lower(),
             "mot de passe":mdp,
             "solde":0,
             "transfert":[]
@@ -69,30 +69,97 @@ while out == True :
 
     if choix == 3 :
         # 3-Lister les comptes d’un client
-        client_recherche=input("saisissez le nom du client a afficher les comptes : ").lower()
-        while not client_recherche.isalpha() :
-            client_recherche=input("resaisissez le nom du client a afficher les comptes : ").lower()
-        for i in tcompte :
-            if i == dict:
-                for y in i :
-                    if client_recherche == client["nom"] :
-                        print(y)
+        v=1
+        compteur=0
+        client_nom=input("saisissez le nom du client a afficher les comptes : ").lower()
+        while not client_nom.isalpha() or len(client_nom) ==1:
+            client_nom=input("resaisissez le nom : ").lower()
+
+        client_prenom=input("saisissez le prenom : ").lower()
+        while not client_prenom.isalpha()  or len(client_prenom) ==1:
+            client_prenom=input("resaisissez le prenom: ").lower()
+
+        for client in tcompte :
+            if client_nom == client["nom"] and client_prenom == client["prenom"]:
+                print(v,"-",client)
+                v += 1
+                compteur += 1
+        if compteur == 0:
+            print("aucun compte trouver a ce nom !!! ")
     
     if choix == 4 :
         # 4-Recharger un compte
-        soldeclient=0
-        num_client_recharge=input("saisissez le numero d'identification du client a recharger : ")
-        while not(num_client_recharge.isdigit()):
-            num_client_recharge=input("resaisissez le numero d'identification du client : ")
-        for i in tcompte:
-            if num_client_recharge == num_identification:
-                soldeclient=input("saisissez le montant de recharge : ")
-                while not soldeclient.isdigit() or int(soldeclient)<=0 :
-                    soldeclient=input("saisissez le montant de recharge : ")
-                soldeclient=int(soldeclient)
-                soldeinclient.append(soldeclient)
-            else:
-                print("compte non trouver !")
+        compteur=0
+        solde_recharge=0
+        numero_client=input("saisissez le numero du client a recharger : ")
+        while not(numero_client.isdigit()) or int(numero_client)<770000000 or int(numero_client)>=790000000:
+            numero_client=input("resaisissez le numero du client : ")
+
+        for client in tcompte:
+            if numero_client == client["numero"]:
+                solde_recharge=input("saisissez le montant de recharge : ")
+                while not solde_recharge.isdigit() or int(solde_recharge)<=0 :
+                    solde_recharge=input("saisissez un montant de recharge valide : ")
+                solde_recharge=int(solde_recharge)
+                client["solde"] += solde_recharge
+                compteur = 1
+        if compteur == 0:
+            print("aucun compte trouver a ce numero!!! ")
+
+    if choix == 5 :
+        # 5-Transférer de l’argent
+        sorti=False
+        # verification des numeros
+        while sorti == False :
+            numero_expediteur=input("saisissez le numero de l'expediteur : ")
+            while not(numero_expediteur.isdigit()) or int(numero_expediteur)<770000000 or int(numero_expediteur)>=790000000:
+                numero_expediteur=input("resaisissez le numero de l'expediteur : ")
+
+            # recherche du compte
+            compteur=0
+            for client in tcompte :
+                if numero_expediteur == client["numero"]:
+                    compteur += 1
+                    sorti=True
+            if compteur == 0:
+                print(f"--- le numero : {numero_expediteur} ne possede pas de compte ---")
+                sorti=False
+
+        asake=False
+        while asake == False :
+            numero_receveur=input("saisissez le numero du receveur : ")
+            while not(numero_receveur.isdigit()) or int(numero_receveur)<770000000 or int(numero_receveur)>=790000000:
+                numero_receveur=input("resaisissez le numero du receveur : ")
+
+            # recherche du compte
+            compteur=0
+            for client in tcompte :
+                if numero_receveur == client["numero"]:
+                    compteur += 1
+                    asake=True
+            if compteur == 0:
+                print(f"--- le numero : {numero_receveur} ne possede pas de compte ---")
+                asake=False
+        
+        # transfert d'argent de l'expediteur vers le receveur
+        montant_transfert=input("saisissez le montant du transfert : ")
+        while not montant_transfert.isdigit or int(montant_transfert)<=0:
+            montant_transfert=input("montant invalide resaisissez le montant : ")
+        montant_transfert=int(montant_transfert)
+        
+        # test du solde de l'expediteur ...
+        tompant=0
+        for client in tcompte :
+            if numero_expediteur == client["numero"]:
+                if montant_transfert < client["solde"]:
+                    tompant=montant_transfert
+                    client["solde"]=client["solde"] - montant_transfert
+                    for client in tcompte:
+                        if numero_receveur== client["numero"]:
+                            client["solde"] += montant_transfert
+                            print("transfert effectuer !!!")
+                else:
+                    print("solde insufisant")
 
     if choix == 7 :
         # 7-quitter le service orange money
