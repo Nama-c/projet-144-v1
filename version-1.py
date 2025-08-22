@@ -56,7 +56,7 @@ while out == True :
             "prenom":prenom.lower(),
             "mot de passe":mdp,
             "solde":0,
-            "transfert":[]
+            "transfert":{}
         }
         tcompte.append(client)
     if choix == 2 :
@@ -109,6 +109,7 @@ while out == True :
     if choix == 5 :
         # 5-Transférer de l’argent
         sorti=False
+        transf={}
         # verification des numeros
         while sorti == False :
             numero_expediteur=input("saisissez le numero de l'expediteur : ")
@@ -154,9 +155,19 @@ while out == True :
                 if montant_transfert < client["solde"]:
                     tompant=montant_transfert
                     client["solde"]=client["solde"] - montant_transfert
+                    client["transfert"] = transf=={
+                        "type":"envoi",
+                        "montant": montant_transfert,
+                        "vers":numero_receveur
+                    }
                     for client in tcompte:
                         if numero_receveur== client["numero"]:
                             client["solde"] += montant_transfert
+                            client["transfert"]= transf=={
+                                "type":"reception",
+                                "montant": montant_transfert,
+                                "de":numero_expediteur
+                            }
                             print("transfert effectuer !!!")
                 else:
                     print("solde insufisant")
