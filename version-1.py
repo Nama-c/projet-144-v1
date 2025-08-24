@@ -1,6 +1,7 @@
 tcompte=[]
 out = True
 num=True
+historique=[]
 while out == True :
     print("----------bienvenue sur orange money senegal !!!----------")
     print("1-Créer un compte (nom, numéro, PIN, solde initial)")
@@ -56,7 +57,7 @@ while out == True :
             "prenom":prenom.lower(),
             "mot de passe":mdp,
             "solde":0,
-            "transfert":{}
+            "transfert":[]
         }
         tcompte.append(client)
     if choix == 2 :
@@ -64,7 +65,7 @@ while out == True :
         v=1
         print("-----voici la liste des comptes orange money-----")
         for i in tcompte :
-            print(v,"-",i)
+            print(f"{v} - {i['prenom'].capitalize()} {i['nom'].capitalize()} | Numéro: {i['numero']} | Solde: {i['solde']} F CFA")
             v += 1
 
     if choix == 3 :
@@ -109,7 +110,6 @@ while out == True :
     if choix == 5 :
         # 5-Transférer de l’argent
         sorti=False
-        transf={}
         # verification des numeros
         while sorti == False :
             numero_expediteur=input("saisissez le numero de l'expediteur : ")
@@ -144,7 +144,7 @@ while out == True :
         
         # transfert d'argent de l'expediteur vers le receveur
         montant_transfert=input("saisissez le montant du transfert : ")
-        while not montant_transfert.isdigit or int(montant_transfert)<=0:
+        while not montant_transfert.isdigit() or int(montant_transfert)<=0:
             montant_transfert=input("montant invalide resaisissez le montant : ")
         montant_transfert=int(montant_transfert)
         
@@ -152,25 +152,31 @@ while out == True :
         tompant=0
         for client in tcompte :
             if numero_expediteur == client["numero"]:
-                if montant_transfert < client["solde"]:
+                if montant_transfert <= client["solde"]:
                     tompant=montant_transfert
                     client["solde"]=client["solde"] - montant_transfert
-                    client["transfert"] = transf=={
+                    client["transfert"].append({
                         "type":"envoi",
                         "montant": montant_transfert,
                         "vers":numero_receveur
-                    }
+                    })
                     for client in tcompte:
                         if numero_receveur== client["numero"]:
                             client["solde"] += montant_transfert
-                            client["transfert"]= transf=={
+                            client["transfert"].append( {
                                 "type":"reception",
                                 "montant": montant_transfert,
                                 "de":numero_expediteur
-                            }
+                            })
                             print("transfert effectuer !!!")
                 else:
                     print("solde insufisant")
+
+    if choix == 6 :
+        # 6-Afficher l’historique des transferts
+        for client in tcompte :
+            historique+=client["transfert"]
+        print(f"voici l´historique des trasnferts : {historique}")
 
     if choix == 7 :
         # 7-quitter le service orange money
