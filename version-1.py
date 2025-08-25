@@ -133,7 +133,7 @@ while out == True :
                 numero_receveur=input("resaisissez le numero du receveur : ")
 
             # recherche du compte
-            compteur=0
+            compteur = 0
             for client in tcompte :
                 if numero_receveur == client["numero"]:
                     compteur += 1
