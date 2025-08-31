@@ -2,6 +2,7 @@ tcompte=[]
 out = True
 num=True
 historique=[]
+
 while out == True :
     print("----------bienvenue sur orange money senegal !!!----------")
     print("1-Créer un compte (nom, numéro, PIN, solde initial)")
