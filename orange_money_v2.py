@@ -152,7 +152,7 @@ while out == True :
         tompant=0
         for client in tcompte :
             if numero_expediteur == client["numero"]:
-                if (montant_transfert + montant_transfert*0.01) <= client["solde"]:
+                if (montant_transfert + montant_transfert*0.01) <= client["solde"]: 
                     tompant=montant_transfert
                     client["solde"]=client["solde"] - (montant_transfert + (montant_transfert*0.01))
                     client["transfert"].append({
